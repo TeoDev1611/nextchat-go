@@ -3,15 +3,14 @@ package controllers
 import (
 	"net/http"
 
-	"github.com/labstack/echo/v4"
+	"github.com/gin-gonic/gin"
 )
 
-func NotFound(c echo.Context) error {
-	data := map[string]interface{}{
-		"message": "Route not found",
-		"error":   true,
-		"status":  http.StatusNotFound,
-		"home":    "/api/v1/",
-	}
-	return c.JSONPretty(http.StatusNotFound, data, "  ")
+func NotFound(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{
+		"message":    "Route not found",
+		"error":      true,
+		"status":     http.StatusNotFound,
+		"suggestion": "/api/nextchat/v1/",
+	})
 }

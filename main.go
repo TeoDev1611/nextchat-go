@@ -1,38 +1,22 @@
 package main
 
 import (
-	"encoding/json"
-	"io/ioutil"
-
-	"git.nextchat.org/nextchat/nextchat-go/controllers"
+	"git.nextchat.org/nextchat/nextchat-go/routes"
 	"git.nextchat.org/nextchat/nextchat-go/utils"
-	"github.com/labstack/echo/v4"
-	"github.com/labstack/echo/v4/middleware"
+	"github.com/gin-contrib/cors"
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	// Start the new go echo app
-	echo.NotFoundHandler = controllers.NotFound
-	e := echo.New()
-	// Setup middlewares
-	e.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
-		Format: "[ ${method} ]: ${uri} -> ${status} || LATENCY: ${latency} |> HOST: ${host}\n",
-	}))
-	e.Pre(middleware.AddTrailingSlash())
-	e.Use(middleware.Recover())
-	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+	r := routes.Router()
+	r.Use(cors.New(cors.Config{
 		AllowOrigins: []string{"*"},
-		AllowMethods: []string{echo.GET, echo.HEAD, echo.PUT, echo.PATCH, echo.POST, echo.DELETE},
+		AllowMethods: []string{"PUT", "POST", "GET", "DELETE"},
 	}))
-	// Setup routes
-	g := e.Group("/api/v1")
-	g.GET("/", controllers.HomeHandler)
-	g.POST("/users/create", controllers.CreateAccount)
-	// Get the routes
-	data, err := json.MarshalIndent(e.Routes(), "", "  ")
-	utils.CheckError(err)
-	ioutil.WriteFile("routes.json", data, 0o644)
-
-	// Start app
-	e.Logger.Fatal(e.Start(":8080"))
+	if utils.GetEnv("DEPLOY") == "on" {
+		gin.SetMode(gin.ReleaseMode)
+		r.Run()
+	} else {
+		r.Run(":3000")
+	}
 }

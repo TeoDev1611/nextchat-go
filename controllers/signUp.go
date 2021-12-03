@@ -4,29 +4,30 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/gin-gonic/gin"
+
 	"git.nextchat.org/nextchat/nextchat-go/models"
 	"git.nextchat.org/nextchat/nextchat-go/security"
 	"github.com/google/uuid"
-	"github.com/labstack/echo/v4"
 )
 
-func CreateAccount(c echo.Context) error {
+func CreateAccount(c *gin.Context) {
 	var reqBody models.UserInfo
-	if err := c.Bind(reqBody); err != nil {
-		c.JSONPretty(http.StatusUnprocessableEntity, map[string]interface{}{
+	if err := c.ShouldBindJSON(reqBody); err != nil {
+		c.JSON(http.StatusUnprocessableEntity, gin.H{
 			"error":   true,
 			"message": "The request was invalid you need pass the correct model",
 			"status":  http.StatusUnprocessableEntity,
-		}, "  ")
+		})
 	}
 
 	// Check the user data is empty
 	if reqBody.Username == " " || reqBody.Password == " " {
-		c.JSONPretty(http.StatusBadRequest, map[string]interface{}{
+		c.JSON(http.StatusBadRequest, gin.H{
 			"error":   true,
 			"message": "Fill all blanks!",
 			"status":  http.StatusBadRequest,
-		}, "  ")
+		})
 	}
 
 	/**  Generate the ids **/
@@ -54,9 +55,7 @@ func CreateAccount(c echo.Context) error {
 			reqBody.Password = encription
 		}
 	}
-
-	// TODO: Make better ok message and create the response correct
-	return c.JSONPretty(http.StatusCreated, map[string]interface{}{
+	c.JSON(http.StatusCreated, gin.H{
 		"ok": true,
-	}, "  ")
+	})
 }
