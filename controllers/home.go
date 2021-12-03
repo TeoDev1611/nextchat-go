@@ -7,5 +7,9 @@ import (
 )
 
 func HomeHandler(c echo.Context) error {
-	return c.String(http.StatusOK, "Hi from Home")
+	data := map[string]string{
+		"message": "Welcome to NextChat!",
+		"status":  "Ok!",
+	}
+	return c.JSONPretty(http.StatusOK, data, "  ")
 }
