@@ -7,9 +7,10 @@ import (
 )
 
 func NotFound(c echo.Context) error {
-	data := map[string]string{
+	data := map[string]interface{}{
 		"message": "Route not found",
-		"status":  "404",
+		"error":   true,
+		"status":  http.StatusNotFound,
 		"home":    "/api/v1/",
 	}
 	return c.JSONPretty(http.StatusNotFound, data, "  ")

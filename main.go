@@ -27,10 +27,12 @@ func main() {
 	// Setup routes
 	g := e.Group("/api/v1")
 	g.GET("/", controllers.HomeHandler)
+	g.POST("/users/create", controllers.CreateAccount)
 	// Get the routes
 	data, err := json.MarshalIndent(e.Routes(), "", "  ")
 	utils.CheckError(err)
 	ioutil.WriteFile("routes.json", data, 0o644)
+
 	// Start app
 	e.Logger.Fatal(e.Start(":8080"))
 }
