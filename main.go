@@ -1,7 +1,11 @@
 package main
 
 import (
+	"encoding/json"
+	"io/ioutil"
+
 	"git.nextchat.org/nextchat/nextchat-go/controllers"
+	"git.nextchat.org/nextchat/nextchat-go/utils"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 )
@@ -23,6 +27,10 @@ func main() {
 	// Setup routes
 	g := e.Group("/api/v1")
 	g.GET("/", controllers.HomeHandler)
+	// Get the routes
+	data, err := json.MarshalIndent(e.Routes(), "", "  ")
+	utils.CheckError(err)
+	ioutil.WriteFile("routes.json", data, 0o644)
 	// Start app
 	e.Logger.Fatal(e.Start(":8080"))
 }
