@@ -9,6 +9,8 @@ import (
 
 func main() {
 	r := routes.Router()
+	r.Use(gin.Logger())
+	r.Use(gin.Recovery())
 	r.Use(cors.New(cors.Config{
 		AllowOrigins: []string{"*"},
 		AllowMethods: []string{"PUT", "POST", "GET", "DELETE"},

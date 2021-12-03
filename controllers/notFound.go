@@ -7,7 +7,7 @@ import (
 )
 
 func NotFound(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{
+	c.JSON(http.StatusNotFound, gin.H{
 		"message":    "Route not found",
 		"error":      true,
 		"status":     http.StatusNotFound,
