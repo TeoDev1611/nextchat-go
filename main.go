@@ -7,10 +7,15 @@ import (
 )
 
 func main() {
+	// Start the new go echo app
 	e := echo.New()
+	// Setup middlewares
 	e.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
-		Format: "[ ${method} ]: ${uri} -> ${status} || LATENCY: ${latency_human} |> HOST: ${host}\n",
+		Format: "[ ${method} ]: ${uri} -> ${status} || LATENCY: ${latency} |> HOST: ${host}\n",
 	}))
-	e.GET("/", routes.HomeHandler)
+	// Setup routes
+	g := e.Group("/api/v1")
+	g.GET("/", routes.HomeHandler)
+	// Start app
 	e.Logger.Fatal(e.Start(":8080"))
 }
