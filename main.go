@@ -1,7 +1,7 @@
 package main
 
 import (
-	"git.nextchat.org/nextchat/nextchat-go/routes"
+	"git.nextchat.org/nextchat/nextchat-go/controllers"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 )
@@ -21,7 +21,7 @@ func main() {
 	}))
 	// Setup routes
 	g := e.Group("/api/v1")
-	g.GET("/", routes.HomeHandler)
+	g.GET("/", controllers.HomeHandler)
 	// Start app
 	e.Logger.Fatal(e.Start(":8080"))
 }
