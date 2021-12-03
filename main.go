@@ -8,6 +8,7 @@ import (
 
 func main() {
 	// Start the new go echo app
+	echo.NotFoundHandler = controllers.NotFound
 	e := echo.New()
 	// Setup middlewares
 	e.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
