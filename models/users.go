@@ -33,10 +33,26 @@ type RoleUsers struct {
 	Permissions PermisionList
 }
 
+type CreateUserData struct {
+	Username     string `json:"username" bson:"username"`
+	Password     string `json:"password"bson:"password"`
+	ProfileImage string `json:"profile_image"bson:"profile_image"`
+}
+
+// Type for the new user creation
+type NewUser struct {
+	ID           uuid.UUID `json:"id" bson:"id"`
+	Username     string    `json:"username" bson:"username"`
+	Password     string    `json:"password"bson:"password"`
+	ProfileImage string    `json:"profile_image"bson:"profile_image"`
+	RecoverCodes []string  `json:"recover_codes"bson:"recover_codes"`
+	JoinedAt     time.Time `json:"joined_at"bson:"joined_at"`
+}
+
 // Set the UserInfo
 type UserInfo struct {
 	// User Info
-	Id       uuid.UUID `json:"id" bson:"id"`
+	ID       uuid.UUID `json:"id" bson:"id"`
 	Username string    `json:"username" bson:"username"`
 	Roles    RoleUsers `json:"roles"bson:"roles"`
 
