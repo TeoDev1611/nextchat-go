@@ -15,10 +15,13 @@ func main() {
 		AllowOrigins: []string{"*"},
 		AllowMethods: []string{"PUT", "POST", "GET", "DELETE"},
 	}))
+
+	port := utils.GetEnv("PORT")
+
 	if utils.GetEnv("DEPLOY") == "on" {
 		gin.SetMode(gin.ReleaseMode)
 		r.Run()
 	} else {
-		r.Run(":3000")
+		r.Run(":" + port)
 	}
 }

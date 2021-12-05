@@ -68,6 +68,14 @@ func CreateAccount(c *gin.Context) {
 		params.Add("background", "303f9f")
 		params.Add("color", "fff")
 		newUserModel.ProfileImage = urlApi + params.Encode()
+	} else {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error":      true,
+			"message":    "What happened here is impossible",
+			"suggestion": "Check the code because this is imposible",
+			"status":     http.StatusInternalServerError,
+		})
+		return
 	}
 
 	// Generate the Time
