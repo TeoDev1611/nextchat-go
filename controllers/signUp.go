@@ -20,6 +20,7 @@ import (
 
 var (
 	usersCollection *mongo.Collection = database.GetCollection("users")
+	urlApi          string            = "https://ui-avatars.com/api/"
 	newUserModel    models.NewUser
 	reqBody         models.CreateUserData
 	ctx, cancel     = context.WithTimeout(context.Background(), 100*time.Second)
@@ -45,26 +46,6 @@ func CreateAccount(c *gin.Context) {
 		return
 	}
 
-	u, errUrl := url.Parse(reqBody.ProfileImage)
-	if errUrl != nil {
-		fmt.Print("------------------ ERROR -------------------")
-		log.Error(errUrl.Error())
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"error":   true,
-			"message": "Internal error in the url parsing",
-			"status":  http.StatusInternalServerError,
-		})
-		return
-	} else if u.Host == " " || u.Scheme == " " {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error":      true,
-			"message":    "Pass the correct url format for the profile image.",
-			"status":     http.StatusBadRequest,
-			"suggestion": "Check the url format",
-		})
-		return
-	}
-
 	/**  Generate the Data for the requests **/
 
 	// Generate a ID
@@ -75,7 +56,19 @@ func CreateAccount(c *gin.Context) {
 	// Add the user and the password profile image
 	newUserModel.Username = reqBody.Username
 	newUserModel.Password = reqBody.Password
-	newUserModel.ProfileImage = reqBody.ProfileImage
+
+	if newUserModel.ProfileImage == " " {
+		params := url.Values{}
+		user := newUserModel.Username
+		params.Add("size", "200")
+		params.Add("name", user)
+		params.Add("rounded", "true")
+		params.Add("bold", "true")
+		params.Add("format", "png")
+		params.Add("background", "303f9f")
+		params.Add("color", "fff")
+		newUserModel.ProfileImage = urlApi + params.Encode()
+	}
 
 	// Generate the Time
 	if newUserModel.JoinedAt.String() == " " {

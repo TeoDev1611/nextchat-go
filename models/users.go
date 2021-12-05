@@ -34,9 +34,8 @@ type RoleUsers struct {
 }
 
 type CreateUserData struct {
-	Username     string `json:"username" bson:"username"`
-	Password     string `json:"password"bson:"password"`
-	ProfileImage string `json:"profile_image"bson:"profile_image"`
+	Username string `json:"username" bson:"username"`
+	Password string `json:"password"bson:"password"`
 }
 
 // Type for the new user creation
