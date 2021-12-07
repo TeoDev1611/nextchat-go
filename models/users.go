@@ -33,6 +33,7 @@ type RoleUsers struct {
 	Permissions PermisionList
 }
 
+// CreateUserData struct  INFO:  Here are the creation model request
 type CreateUserData struct {
 	Username string `json:"username" bson:"username"`
 	Password string `json:"password"bson:"password"`

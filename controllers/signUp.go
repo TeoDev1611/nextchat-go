@@ -54,6 +54,15 @@ func CreateAccount(c *gin.Context) {
 	}
 
 	// Add the user and the password profile image
+	if security.CheckRepeatedUser(reqBody.Username) {
+		c.JSON(http.StatusConflict, gin.H{
+			"error":   true,
+			"message": "The username is repeated change to other username.",
+			"status":  http.StatusConflict,
+		})
+		return
+	}
+
 	newUserModel.Username = reqBody.Username
 	newUserModel.Password = reqBody.Password
 
