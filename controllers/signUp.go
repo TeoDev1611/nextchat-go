@@ -49,8 +49,8 @@ func CreateAccount(c *gin.Context) {
 	/**  Generate the Data for the requests **/
 
 	// Generate a ID
-	if newUserModel.ID.String() == " " {
-		newUserModel.ID = uuid.New()
+	if newUserModel.ID == " " {
+		newUserModel.ID = uuid.New().String()
 	}
 
 	// Add the user and the password profile image

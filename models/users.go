@@ -2,8 +2,6 @@ package models
 
 import (
 	"time"
-
-	"github.com/google/uuid"
 )
 
 // Set the user status
@@ -41,7 +39,7 @@ type CreateUserData struct {
 
 // Type for the new user creation
 type NewUser struct {
-	ID           uuid.UUID `json:"id" bson:"id"`
+	ID           string    `json:"id" bson:"id"`
 	Username     string    `json:"username" bson:"username"`
 	Password     string    `json:"password"bson:"password"`
 	ProfileImage string    `json:"profile_image"bson:"profile_image"`
@@ -52,7 +50,7 @@ type NewUser struct {
 // Set the UserInfo
 type UserInfo struct {
 	// User Info
-	ID       uuid.UUID `json:"id" bson:"id"`
+	ID       string    `json:"id" bson:"id"`
 	Username string    `json:"username" bson:"username"`
 	Roles    RoleUsers `json:"roles"bson:"roles"`
 
